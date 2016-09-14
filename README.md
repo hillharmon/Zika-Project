@@ -1,2 +1,2 @@
 # Zika-Project
-Team Project for Sensync course
+Team Project for Sesync course
