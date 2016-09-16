@@ -51,12 +51,14 @@ zikamapping831 <- merge(noterr, cdc_data20160831_joinedmin, sort = FALSE, by = "
 ##           geom = "polygon")
 
 #mapping theZika data onto a map of the US with fill being the travel acquired case count by
+##tmap_mode("view") ##changes plotting to leverage leaflet and plot over open street map
+tmap_mode("plot") ##changes it back to normal plot mode
 tm_shape(zikamapping831)+ #imports name of shape object
   tm_borders()+ #layers in the outlines of the polygon 
   tm_fill("value", title = "Imported Zika Cases", cex = 0.5)+
   tm_legend(legend.frame = TRUE, legend.outside = TRUE)+## = c("right", "bottom"))+ # specifying where to find the fill information
- ## tm_text("NAME", size = 0.7)+ #puts names in, need to change call to column name for state names
- tm_style_classic() +
-  tm_bubbles(size = ("local"))
+  tm_style_classic() +
+  tm_bubbles(size = ("local"))+
+  tm_text("value", size = 0.7) #puts amounts of imported cases
 
 
