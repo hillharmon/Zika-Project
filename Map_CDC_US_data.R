@@ -5,6 +5,8 @@ source("Update_CDC_Data.R")
 library(dplyr)
 library(stringr)
 library(maps)
+library(rgdal)
+library(tmap)
 
 #change this line if you don"t have zika data in caps
 #read CDC data into file (verion for most recent data file only, non automated)
@@ -33,9 +35,15 @@ cdc_data20160831_joinedmin <- filter(cdc_data20160831_joined, cdc_data20160831_j
   ##          ignore.duplicates = FALSE, ignore.na = FALSE,
     ##        fixed.order = is.null(key.data) && is.null(key.shp))
 
-##states <- map_data("state")
+##Building the states
+states <- readOGR("cb_2015_us_state_500k",
+                   "cb_2015_us_state_500k")
 
-##tomap <- merge(states, cdc_data20160831, sort = FALSE, by = "region")
+terr<- c("AS", "PR", "VI", "GU", "HI", "AK", "MP")                            
+noterr<- states[!(states[["STUSPS"]] %in% terr),]
+plot(noterr)
+
+zikamapping831 <- merge(noterr, cdc_data20160831_joinedmin, sort = FALSE, by = "NAME")
 
 ##p <- qplot(long, lat, data = tomap, 
 ##           group= group,
@@ -43,11 +51,12 @@ cdc_data20160831_joinedmin <- filter(cdc_data20160831_joined, cdc_data20160831_j
 ##           geom = "polygon")
 
 #mapping theZika data onto a map of the US with fill being the travel acquired case count by
-tm_shape(##fill in with squished shape+data##)+ #imports name of shape object
+tm_shape(zikamapping831)+ #imports name of shape object
   tm_borders()+ #layers in the outlines of the polygon 
-  tm_fill("value", title = "Travel Imported Zika Case Count")+ # specifying where to find the fill information
-  tm_text("NAME", size = 0.7) #puts names in, need to change call to column name for state names
-  tm_style_classic(legend.frame = TRUE) +
+  tm_fill("value", title = "Imported Zika Cases", cex = 0.5)+
+  tm_legend(legend.frame = TRUE, legend.outside = TRUE)+## = c("right", "bottom"))+ # specifying where to find the fill information
+ ## tm_text("NAME", size = 0.7)+ #puts names in, need to change call to column name for state names
+ tm_style_classic() +
   tm_bubbles(size = ("local"))
 
 
