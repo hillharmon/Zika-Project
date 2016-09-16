@@ -6,7 +6,7 @@ library(dplyr)
 library(stringr)
 library(maps)
 
-
+#change this line if you don"t have zika data in caps
 #read CDC data into file (verion for most recent data file only, non automated)
 cdc_data20160831 <- read.csv("../Zika_Data/United_States/CDC_Report/data/CDC_Report-2016-08-31.csv")
 
