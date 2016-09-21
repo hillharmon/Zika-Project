@@ -1,5 +1,5 @@
 #refers to script to update CDC data folder.
-source("Update_CDC_Data.R")  
+#source("Update_CDC_Data.R")  
 
 #load libraries
 library(dplyr)
@@ -8,9 +8,9 @@ library(maps)
 library(rgdal)
 library(tmap)
 
-#change this line if you don"t have zika data in caps
+#change this line if you don't have zika data in all lower case or if the directory for the CDC data is somewhere else
 #read CDC data into file (verion for most recent data file only, non automated)
-cdc_data20160831 <- read.csv("../Zika_Data/United_States/CDC_Report/data/CDC_Report-2016-08-31.csv")
+cdc_data20160831 <- read.csv("../zika_data/United_States/CDC_Report/data/CDC_Report-2016-08-31.csv")
 
 #create columns to seperate country and state
 cdc_data20160831$location <- sapply(cdc_data20160831$location, as.character)
